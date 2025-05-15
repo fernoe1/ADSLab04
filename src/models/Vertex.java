@@ -3,7 +3,7 @@ package models;
 import java.util.HashMap;
 import java.util.Map;
 
-public class Vertex<V> {
+public class Vertex<V>  {
     private V data;
     private Map<Vertex<V>, Double> adjacentVertices;
 
@@ -12,16 +12,17 @@ public class Vertex<V> {
         adjacentVertices = new HashMap<>();
     }
 
-    public void addEdge(Vertex<V> dest, double weight) {
-        adjacentVertices.put(dest, weight);
-    }
-
-    public V getData() {
-        return data;
+    public void addAdjacentVertex(Vertex<V> v, double weight) {
+        adjacentVertices.put(v, weight);
     }
 
     public Map<Vertex<V>, Double> getAdjacentVertices() {
         return adjacentVertices;
+    }
+
+    @Override
+    public int hashCode() {
+        return data.hashCode();
     }
 
     @Override
@@ -30,16 +31,16 @@ public class Vertex<V> {
             return false;
         }
 
-        if (this == o) {
+        if (o == this) {
             return true;
         }
 
-        Vertex otherVertex = (Vertex) o;
+        Vertex<V> otherVertex = (Vertex<V>) o;
         return this.data.equals(otherVertex.data);
     }
 
     @Override
-    public int hashCode() {
-        return data.hashCode();
+    public String toString() {
+        return data.toString();
     }
 }

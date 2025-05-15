@@ -2,33 +2,33 @@ package models;
 
 import java.util.*;
 
-public class Search<Vertex> {
-    protected Set<Vertex> visited;
-    protected Map<Vertex, Vertex> path;
-    private final Vertex source;
+public abstract class Search<V> {
+    private final Vertex<V> source;
+    Set<Vertex<V>> visited;
+    Map<Vertex<V>, Vertex<V>> path;
 
-    public Search(Vertex source) {
+    public Search(Vertex<V> source) {
+        this.source = source;
         visited = new HashSet<>();
         path = new HashMap<>();
-        this.source = source;
     }
 
-    public boolean hasPathTo(Vertex v) {
+    public boolean hasPathTo(Vertex<V> v) {
         return visited.contains(v);
     }
 
-    public Iterable<Vertex> pathTo(Vertex v) {
+    public Iterable<Vertex<V>> pathTo(Vertex<V> v) {
         if (!hasPathTo(v)) {
             return null;
         }
 
-        Stack<Vertex> stack = new Stack<>();
+        LinkedList<Vertex<V>> list = new LinkedList<>();
         while (v != source) {
-            stack.push(v);
+            list.push(v);
             v = path.get(v);
         }
-        stack.push(source);
+        list.push(source);
 
-        return stack;
+        return list;
     }
 }

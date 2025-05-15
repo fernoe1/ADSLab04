@@ -3,19 +3,20 @@ package models;
 import java.util.LinkedList;
 import java.util.Queue;
 
-public class BreadthFirstSearch<V> extends Search<Vertex<V>>{
-    public BreadthFirstSearch(WeightedGraph<V> graph, Vertex<V> source) {
-        super(source);
-        bfs(graph, source);
+public class BFS<V> extends Search<V> {
+    public BFS(WeightedGraph<V> graph, Vertex<V> source) {
+        super(graph.getSet().stream().filter(v -> v.equals(source)).findFirst().get());
+        bfs(graph, graph.getSet().stream().filter(v -> v.equals(source)).findFirst().get());
     }
 
-    private void bfs(WeightedGraph<V> graph, Vertex<V> source) {
+    public void bfs(WeightedGraph<V> graph, Vertex<V> source) {
         Queue<Vertex<V>> queue = new LinkedList<>();
         super.visited.add(source);
+        super.path.put(source, null);
         queue.add(source);
 
         while (!queue.isEmpty()) {
-            Vertex<V> popped = queue.remove();
+            Vertex<V> popped = queue.poll();
             for (Vertex<V> vertex : popped.getAdjacentVertices().keySet()) {
                 if (!super.visited.contains(vertex)) {
                     super.visited.add(vertex);
